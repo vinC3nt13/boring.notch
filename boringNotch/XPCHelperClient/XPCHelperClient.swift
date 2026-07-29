@@ -5,7 +5,10 @@ import AsyncXPCConnection
 final class XPCHelperClient: NSObject {
     nonisolated static let shared = XPCHelperClient()
     
-    private let serviceName = "theboringteam.boringnotch.BoringNotchXPCHelper"
+    private var serviceName: String {
+        let appIdentifier = Bundle.main.bundleIdentifier ?? "theboringteam.boringnotch"
+        return "\(appIdentifier).BoringNotchXPCHelper"
+    }
     
     private var remoteService: RemoteXPCService<BoringNotchXPCHelperProtocol>?
     private var connection: NSXPCConnection?
@@ -145,6 +148,95 @@ final class XPCHelperClient: NSObject {
             return false
         }
     }
+
+    // MARK: - Codex
+
+    nonisolated func fetchCodexDashboard() async throws -> Data {
+        let service = await MainActor.run {
+            ensureRemoteService()
+        }
+
+        let response: (Data?, String?) = try await service.withContinuation {
+            service, continuation in
+            service.fetchCodexDashboard { data, errorMessage in
+                continuation.resume(returning: (data, errorMessage))
+            }
+        }
+
+        if let data = response.0 {
+            return data
+        }
+
+        throw CodexDashboardError(
+            message: response.1 ?? "无法读取 Codex 数据"
+        )
+    }
+
+    // MARK: - NetEase Cloud Music
+
+    nonisolated func setNetEaseFavorite(_ favorite: Bool) async -> Bool {
+        do {
+            let service = await MainActor.run {
+                ensureRemoteService()
+            }
+            return try await service.withContinuation { service, continuation in
+                service.setNetEaseFavorite(favorite) { success in
+                    continuation.resume(returning: success)
+                }
+            }
+        } catch {
+            return false
+        }
+    }
+
+    nonisolated func currentNetEaseFavorite() async -> Bool? {
+        do {
+            let service = await MainActor.run {
+                ensureRemoteService()
+            }
+            let result: NSNumber? = try await service.withContinuation {
+                service, continuation in
+                service.currentNetEaseFavorite { value in
+                    continuation.resume(returning: value)
+                }
+            }
+            return result?.boolValue
+        } catch {
+            return nil
+        }
+    }
+
+    nonisolated func setNetEaseVolume(_ value: Double) async -> Bool {
+        do {
+            let service = await MainActor.run {
+                ensureRemoteService()
+            }
+            return try await service.withContinuation { service, continuation in
+                service.setNetEaseVolume(value) { success in
+                    continuation.resume(returning: success)
+                }
+            }
+        } catch {
+            return false
+        }
+    }
+
+    nonisolated func currentNetEaseVolume() async -> Double? {
+        do {
+            let service = await MainActor.run {
+                ensureRemoteService()
+            }
+            let result: NSNumber? = try await service.withContinuation {
+                service, continuation in
+                service.currentNetEaseVolume { value in
+                    continuation.resume(returning: value)
+                }
+            }
+            return result?.doubleValue
+        } catch {
+            return nil
+        }
+    }
     
     // MARK: - Keyboard Brightness
     
@@ -243,8 +335,14 @@ final class XPCHelperClient: NSObject {
     }
 }
 
+private struct CodexDashboardError: LocalizedError {
+    let message: String
+
+    var errorDescription: String? {
+        message
+    }
+}
+
 extension Notification.Name {
     static let accessibilityAuthorizationChanged = Notification.Name("accessibilityAuthorizationChanged")
 }
-
-

@@ -139,6 +139,26 @@ class BoringNotchXPCHelper: NSObject, BoringNotchXPCHelperProtocol {
         reply(false)
     }
 
+    @objc func fetchCodexDashboard(with reply: @escaping (Data?, String?) -> Void) {
+        CodexDashboardProvider.fetch(completion: reply)
+    }
+
+    @objc func setNetEaseFavorite(_ favorite: Bool, with reply: @escaping (Bool) -> Void) {
+        reply(NetEaseAccessibilityController.setFavorite(favorite))
+    }
+
+    @objc func currentNetEaseFavorite(with reply: @escaping (NSNumber?) -> Void) {
+        reply(NetEaseAccessibilityController.favoriteState.map(NSNumber.init(value:)))
+    }
+
+    @objc func setNetEaseVolume(_ value: Double, with reply: @escaping (Bool) -> Void) {
+        reply(NetEaseAccessibilityController.setVolume(value))
+    }
+
+    @objc func currentNetEaseVolume(with reply: @escaping (NSNumber?) -> Void) {
+        reply(NetEaseAccessibilityController.volume.map(NSNumber.init(value:)))
+    }
+
     // MARK: - Private helpers for DisplayServices / IOKit access
     private func displayServicesGetBrightness(displayID: CGDirectDisplayID, out: inout Float) -> Bool {
         guard let sym = dlsym(DisplayServicesHandle.handle, "DisplayServicesGetBrightness") else { return false }

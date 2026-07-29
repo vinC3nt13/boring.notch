@@ -618,7 +618,13 @@ struct Media: View {
             } header: {
                 Text("Media Source")
             } footer: {
-                if MusicManager.shared.isNowPlayingDeprecated {
+                if mediaController == .neteaseMusic {
+                    Text(
+                        "NetEase Cloud Music is shown in the Home player. Changes take effect immediately."
+                    )
+                    .foregroundStyle(.secondary)
+                    .font(.caption)
+                } else if MusicManager.shared.isNowPlayingDeprecated {
                     HStack {
                         Text("YouTube Music requires this third-party app to be installed: ")
                             .foregroundStyle(.secondary)

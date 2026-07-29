@@ -20,5 +20,11 @@ import Foundation
     func isScreenBrightnessAvailable(with reply: @escaping (Bool) -> Void)
     func currentScreenBrightness(with reply: @escaping (NSNumber?) -> Void)
     func setScreenBrightness(_ value: Float, with reply: @escaping (Bool) -> Void)
+    // NetEase Cloud Music accessibility controls
+    func setNetEaseFavorite(_ favorite: Bool, with reply: @escaping (Bool) -> Void)
+    func currentNetEaseFavorite(with reply: @escaping (NSNumber?) -> Void)
+    func setNetEaseVolume(_ value: Double, with reply: @escaping (Bool) -> Void)
+    func currentNetEaseVolume(with reply: @escaping (NSNumber?) -> Void)
+    // Read-only Codex dashboard snapshot
+    func fetchCodexDashboard(with reply: @escaping (Data?, String?) -> Void)
 }
-

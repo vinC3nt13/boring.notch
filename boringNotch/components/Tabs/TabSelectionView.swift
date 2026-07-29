@@ -10,18 +10,20 @@ import SwiftUI
 struct TabModel: Identifiable {
     let id = UUID()
     let label: String
-    let icon: String
+    let icon: TabIcon
     let view: NotchViews
 }
 
 let tabs = [
-    TabModel(label: "Home", icon: "house.fill", view: .home),
-    TabModel(label: "Shelf", icon: "tray.fill", view: .shelf)
+    TabModel(label: "Home", icon: .system("house.fill"), view: .home),
+    TabModel(label: "Codex", icon: .codex, view: .codex),
+    TabModel(label: "Shelf", icon: .system("tray.fill"), view: .shelf)
 ]
 
 struct TabSelectionView: View {
     @ObservedObject var coordinator = BoringViewCoordinator.shared
     @Namespace var animation
+
     var body: some View {
         HStack(spacing: 0) {
             ForEach(tabs) { tab in

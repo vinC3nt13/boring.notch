@@ -38,6 +38,11 @@
 		1153BD982D9881F900979FB0 /* AppleScriptHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1153BD972D9881F900979FB0 /* AppleScriptHelper.swift */; };
 		1153BD9A2D98824300979FB0 /* SpotifyController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1153BD992D98824300979FB0 /* SpotifyController.swift */; };
 		1153BD9C2D98853B00979FB0 /* NowPlayingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1153BD9B2D98853B00979FB0 /* NowPlayingController.swift */; };
+		CD1000010000000000000001 /* NetEaseMusicController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD1000020000000000000001 /* NetEaseMusicController.swift */; };
+		CD2000010000000000000001 /* CodexDashboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD2000020000000000000001 /* CodexDashboard.swift */; };
+		CD2000030000000000000001 /* CodexDashboardManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD2000040000000000000001 /* CodexDashboardManager.swift */; };
+		CD2000050000000000000001 /* CodexGlyph.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD2000060000000000000001 /* CodexGlyph.swift */; };
+		CD2000070000000000000001 /* CodexDashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD2000080000000000000001 /* CodexDashboardView.swift */; };
 		1153BDA72D99B22200979FB0 /* YouTubeMusicController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1153BDA62D99B22200979FB0 /* YouTubeMusicController.swift */; };
 		115C12EC2ED3D003009754CA /* OpenNotchHUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 115C12EB2ED3D003009754CA /* OpenNotchHUD.swift */; };
 		1160F8D82DD98230006FBB94 /* NotchShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1160F8D72DD98230006FBB94 /* NotchShape.swift */; };
@@ -208,6 +213,11 @@
 		1153BD972D9881F900979FB0 /* AppleScriptHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleScriptHelper.swift; sourceTree = "<group>"; };
 		1153BD992D98824300979FB0 /* SpotifyController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpotifyController.swift; sourceTree = "<group>"; };
 		1153BD9B2D98853B00979FB0 /* NowPlayingController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NowPlayingController.swift; sourceTree = "<group>"; };
+		CD1000020000000000000001 /* NetEaseMusicController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetEaseMusicController.swift; sourceTree = "<group>"; };
+		CD2000020000000000000001 /* CodexDashboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodexDashboard.swift; sourceTree = "<group>"; };
+		CD2000040000000000000001 /* CodexDashboardManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodexDashboardManager.swift; sourceTree = "<group>"; };
+		CD2000060000000000000001 /* CodexGlyph.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodexGlyph.swift; sourceTree = "<group>"; };
+		CD2000080000000000000001 /* CodexDashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodexDashboardView.swift; sourceTree = "<group>"; };
 		1153BDA62D99B22200979FB0 /* YouTubeMusicController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YouTubeMusicController.swift; sourceTree = "<group>"; };
 		115C12EB2ED3D003009754CA /* OpenNotchHUD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenNotchHUD.swift; sourceTree = "<group>"; };
 		1160F8D72DD98230006FBB94 /* NotchShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotchShape.swift; sourceTree = "<group>"; };
@@ -431,6 +441,7 @@
 				1153BD922D986E4300979FB0 /* AppleMusicController.swift */,
 				1153BD992D98824300979FB0 /* SpotifyController.swift */,
 				1153BD9B2D98853B00979FB0 /* NowPlayingController.swift */,
+				CD1000020000000000000001 /* NetEaseMusicController.swift */,
 			);
 			path = MediaControllers;
 			sourceTree = "<group>";
@@ -486,6 +497,7 @@
 		1471639B2C5D362F0068B555 /* components */ = {
 			isa = PBXGroup;
 			children = (
+				CD2000090000000000000001 /* Codex */,
 				B141C23B2CA5F50900AC8CC8 /* Onboarding */,
 				B1C448992C97375A001F0858 /* Tips */,
 				14C08BB72C8DE49E000F8AA0 /* Calendar */,
@@ -510,6 +522,7 @@
 		147163B52C5D804B0068B555 /* managers */ = {
 			isa = PBXGroup;
 			children = (
+				CD2000040000000000000001 /* CodexDashboardManager.swift */,
 				11D58EA12E760AE100FA8377 /* ImageService.swift */,
 				F38DE6472D8243E2008B5C6D /* BatteryActivityManager.swift */,
 				112FB7342CCF16F70015238C /* NotchSpaceManager.swift */,
@@ -626,6 +639,7 @@
 		14D570C72C5F38760011E668 /* models */ = {
 			isa = PBXGroup;
 			children = (
+				CD2000020000000000000001 /* CodexDashboard.swift */,
 				11F748812ECB07A400F841DB /* MusicControlButton.swift */,
 				118D1FD02E98FF5F00A2FF63 /* SharingStateManager.swift */,
 				1163988E2DF5CC870052E6AF /* CalendarModel.swift */,
@@ -636,6 +650,15 @@
 				1153BD902D986DB300979FB0 /* PlaybackState.swift */,
 			);
 			path = models;
+			sourceTree = "<group>";
+		};
+		CD2000090000000000000001 /* Codex */ = {
+			isa = PBXGroup;
+			children = (
+				CD2000060000000000000001 /* CodexGlyph.swift */,
+				CD2000080000000000000001 /* CodexDashboardView.swift */,
+			);
+			path = Codex;
 			sourceTree = "<group>";
 		};
 		9A0887332C7AFF7E00C160EA /* Tabs */ = {
@@ -925,6 +948,11 @@
 				14D570CB2C5F4B2C0011E668 /* BatteryStatusViewModel.swift in Sources */,
 				9A0887322C7A693000C160EA /* TabButton.swift in Sources */,
 				1153BD9C2D98853B00979FB0 /* NowPlayingController.swift in Sources */,
+				CD1000010000000000000001 /* NetEaseMusicController.swift in Sources */,
+				CD2000010000000000000001 /* CodexDashboard.swift in Sources */,
+				CD2000030000000000000001 /* CodexDashboardManager.swift in Sources */,
+				CD2000050000000000000001 /* CodexGlyph.swift in Sources */,
+				CD2000070000000000000001 /* CodexDashboardView.swift in Sources */,
 				1194E9402EACC652009C82D6 /* Color+AccentColor.swift in Sources */,
 				B141C2412CA5F53F00AC8CC8 /* SparkleView.swift in Sources */,
 				116398962DF5D6C00052E6AF /* CalendarServiceProviding.swift in Sources */,
@@ -1050,7 +1078,7 @@
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
 				MARKETING_VERSION = 2.7.3;
-				PRODUCT_BUNDLE_IDENTIFIER = theboringteam.boringnotch.BoringNotchXPCHelper;
+				PRODUCT_BUNDLE_IDENTIFIER = local.codex.boringnotchcustom.BoringNotchXPCHelper;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
 				SKIP_INSTALL = YES;
@@ -1234,7 +1262,7 @@
 				);
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = boringNotch/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = TheBoringNotch;
+				INFOPLIST_KEY_CFBundleDisplayName = "Boring Notch Custom";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_LSBackgroundOnly = NO;
 				INFOPLIST_KEY_LSUIElement = YES;
@@ -1249,8 +1277,8 @@
 				);
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
 				MARKETING_VERSION = 2.7.3;
-				PRODUCT_BUNDLE_IDENTIFIER = theboringteam.boringnotch;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = local.codex.boringnotchcustom;
+				PRODUCT_NAME = BoringNotchCustom;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_STRICT_CONCURRENCY = targeted;

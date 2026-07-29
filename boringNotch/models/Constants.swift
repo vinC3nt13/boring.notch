@@ -47,6 +47,7 @@ enum MediaControllerType: String, CaseIterable, Identifiable, Defaults.Serializa
     case appleMusic = "Apple Music"
     case spotify = "Spotify"
     case youtubeMusic = "YouTube Music"
+    case neteaseMusic = "网易云音乐"
     
     var id: String { self.rawValue }
 }
@@ -106,7 +107,10 @@ extension Defaults.Keys {
 
     static let showNotHumanFace = Key<Bool>("showNotHumanFace", default: false)
     static let tileShowLabels = Key<Bool>("tileShowLabels", default: false)
-    static let showCalendar = Key<Bool>("showCalendar", default: false)
+    static let showCalendar = Key<Bool>(
+        "showCalendar",
+        default: Bundle.main.bundleIdentifier == "local.codex.boringnotchcustom"
+    )
     static let hideCompletedReminders = Key<Bool>("hideCompletedReminders", default: true)
     static let sliderColor = Key<SliderColorEnum>(
         "sliderUseAlbumArtColor",
