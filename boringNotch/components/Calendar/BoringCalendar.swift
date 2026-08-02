@@ -95,8 +95,6 @@ struct WheelPicker: View {
             }
             .padding(.vertical, 4)
             .padding(.horizontal, 4)
-            .background(isSelected ? Color.effectiveAccentBackground : Color.clear)
-            .cornerRadius(8)
         }
         .buttonStyle(PlainButtonStyle())
         .id(id)
@@ -105,17 +103,21 @@ struct WheelPicker: View {
     private func dayText(date: String, isToday: Bool, isSelected: Bool) -> some View {
         Text(date)
             .font(.caption)
-            .foregroundColor(isSelected ? .white : Color(white: 0.65))
+            .foregroundColor(isSelected ? CodexTheme.accent : Color(white: 0.65))
     }
 
     private func dateCircle(date: Date, isToday: Bool, isSelected: Bool) -> some View {
         ZStack {
             Circle()
-                .fill(isToday ? Color.effectiveAccent : .clear)
-                .frame(width: 20, height: 20)
+                .fill(isSelected ? CodexTheme.accent : .clear)
+                .frame(width: 24, height: 24)
                 .overlay(
                     Circle()
-                        .stroke(Color.gray.opacity(0.3), lineWidth: 0)
+                        .stroke(
+                            isToday && !isSelected
+                                ? CodexTheme.accent.opacity(0.7) : Color.clear,
+                            lineWidth: 1
+                        )
                 )
             Text("\(date.date)")
                 .font(.body)

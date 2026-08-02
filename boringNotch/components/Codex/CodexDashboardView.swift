@@ -9,7 +9,7 @@ import SwiftUI
 struct CodexDashboardView: View {
     @ObservedObject private var manager = CodexDashboardManager.shared
 
-    private let accent = Color(red: 0.48, green: 0.30, blue: 0.96)
+    private let accent = CodexTheme.accent
 
     var body: some View {
         Group {

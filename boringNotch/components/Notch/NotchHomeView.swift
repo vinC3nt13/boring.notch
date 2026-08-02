@@ -418,6 +418,87 @@ struct VolumeControlView: View {
 
 // MARK: - Main View
 
+struct CodexHomeUsageCard: View {
+    @ObservedObject private var manager = CodexDashboardManager.shared
+    @ObservedObject private var coordinator = BoringViewCoordinator.shared
+
+    var body: some View {
+        Button {
+            if manager.dashboard == nil, manager.errorMessage != nil {
+                Task { await manager.refresh() }
+            } else {
+                withAnimation(.smooth) {
+                    coordinator.currentView = .codex
+                }
+            }
+        } label: {
+            VStack(spacing: 4) {
+                Text("Codex")
+                    .font(.system(size: 12, weight: .semibold))
+
+                if let rateLimit = manager.dashboard?.rateLimit {
+                    rateLimitRing(rateLimit)
+
+                    Text("重置 \(rateLimit.resetCountdownLabel ?? "--")")
+                        .font(.system(size: 8))
+                        .foregroundStyle(.secondary)
+                        .lineLimit(1)
+                } else if manager.isLoading {
+                    ProgressView()
+                        .controlSize(.small)
+                        .frame(width: 64, height: 64)
+                    Text("正在读取")
+                        .font(.system(size: 8))
+                        .foregroundStyle(.secondary)
+                } else {
+                    CodexGlyph(size: 22)
+                        .foregroundStyle(.secondary)
+                        .frame(width: 64, height: 64)
+                    Text("点击重试")
+                        .font(.system(size: 8))
+                        .foregroundStyle(.secondary)
+                }
+            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .contentShape(Rectangle())
+        }
+        .buttonStyle(.plain)
+        .accessibilityLabel("Codex 7天用量")
+        .task {
+            if manager.dashboard == nil && !manager.isLoading {
+                await manager.refresh()
+            }
+        }
+    }
+
+    private func rateLimitRing(_ rateLimit: CodexRateLimit) -> some View {
+        ZStack {
+            Circle()
+                .stroke(.gray.opacity(0.22), lineWidth: 4)
+
+            Circle()
+                .trim(from: 0, to: CGFloat(rateLimit.remainingPercent) / 100)
+                .stroke(
+                    CodexTheme.accent,
+                    style: StrokeStyle(lineWidth: 4, lineCap: .round)
+                )
+                .rotationEffect(.degrees(-90))
+
+            VStack(spacing: -1) {
+                Text(rateLimit.windowLabel)
+                    .font(.system(size: 8))
+                    .foregroundStyle(.secondary)
+                Text("\(rateLimit.remainingPercent)%")
+                    .font(.system(size: 18, weight: .bold, design: .rounded))
+                Text("剩余")
+                    .font(.system(size: 8))
+                    .foregroundStyle(.secondary)
+            }
+        }
+        .frame(width: 64, height: 64)
+    }
+}
+
 struct NotchHomeView: View {
     @EnvironmentObject var vm: BoringViewModel
     @ObservedObject var webcamManager = WebcamManager.shared
@@ -439,9 +520,37 @@ struct NotchHomeView: View {
         Defaults[.showMirror] && webcamManager.cameraAvailable && vm.isCameraExpanded
     }
 
+    private var shouldShowCodexUsage: Bool {
+        !shouldShowCamera
+    }
+
+    private var contentSpacing: CGFloat {
+        if shouldShowCamera && Defaults[.showCalendar] { return 10 }
+        return shouldShowCodexUsage ? 8 : 15
+    }
+
     private var mainContent: some View {
-        HStack(alignment: .top, spacing: (shouldShowCamera && Defaults[.showCalendar]) ? 10 : 15) {
+        HStack(alignment: .top, spacing: contentSpacing) {
             MusicPlayerView(albumArtNamespace: albumArtNamespace)
+
+            if shouldShowCodexUsage {
+                CodexHomeUsageCard()
+                    .frame(width: 94, height: 120)
+                    .padding(.horizontal, 5)
+                    .overlay(alignment: .leading) {
+                        Rectangle()
+                            .fill(.gray.opacity(0.2))
+                            .frame(width: 1)
+                            .padding(.vertical, 4)
+                    }
+                    .overlay(alignment: .trailing) {
+                        Rectangle()
+                            .fill(.gray.opacity(0.2))
+                            .frame(width: 1)
+                            .padding(.vertical, 4)
+                    }
+                    .transition(.opacity)
+            }
 
             if Defaults[.showCalendar] {
                 CalendarView()

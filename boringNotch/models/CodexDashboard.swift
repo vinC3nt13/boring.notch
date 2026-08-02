@@ -59,6 +59,18 @@ struct CodexRateLimit: Decodable {
     var resetDate: Date? {
         resetsAt.map { Date(timeIntervalSince1970: TimeInterval($0)) }
     }
+
+    var resetCountdownLabel: String? {
+        guard let resetDate else { return nil }
+        let remaining = max(0, Int(resetDate.timeIntervalSinceNow))
+        let days = remaining / 86_400
+        let hours = (remaining % 86_400) / 3_600
+
+        if days > 0 && hours > 0 { return "\(days)天\(hours)小时" }
+        if days > 0 { return "\(days)天" }
+        if hours > 0 { return "\(hours)小时" }
+        return "1小时内"
+    }
 }
 
 struct CodexUsageSummary: Decodable {

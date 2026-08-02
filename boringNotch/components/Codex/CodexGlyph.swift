@@ -5,6 +5,10 @@
 
 import SwiftUI
 
+enum CodexTheme {
+    static let accent = Color(red: 0.50, green: 0.39, blue: 0.91)
+}
+
 struct CodexGlyph: View {
     var size: CGFloat = 16
 
