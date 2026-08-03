@@ -22,6 +22,38 @@
 
 Say hello to **Boring Notch**, the coolest way to make your MacBook’s notch the star of the show! Say goodbye to boring status bars: with Boring Notch, your notch transforms into a dynamic music control center, complete with a vibrant visualizer and all the essential music controls you need. But that’s just the start! Boring Notch also offers calendar integration, a handy file shelf with AirDrop support, a complete MacOS HUD replacement and more!
 
+## Fork Customizations
+
+This Fork keeps the original Boring Notch features and adds a NetEase Cloud Music workflow plus a Codex usage dashboard. The custom Home layout is designed for a 13-inch MacBook notch and keeps the existing calendar area in place.
+
+<p align="center">
+  <img src="design/09-home-codex-usage-b-actual.png" alt="Home tab with NetEase Cloud Music, Codex usage and calendar" width="640" />
+</p>
+
+### NetEase Cloud Music
+
+- Choose **Settings → Media Source → NetEase Cloud Music**.
+- NetEase playback status, artwork, progress and player controls appear in the Home tab.
+- Play/pause, previous/next track, seek, shuffle/repeat, favorite and volume controls are supported where NetEase exposes them.
+- The NetEase app must be installed. Favorite and volume actions may request macOS Accessibility permission so the helper can operate NetEase controls.
+
+### Codex dashboard
+
+- **Codex** is available as a separate tab with a monochrome icon matching the existing tab style.
+- The dashboard shows the 7-day allowance, today’s token usage, recent daily usage and the latest three sessions.
+- Use **Open Codex** to launch the Codex app, or click a recent session to open that conversation directly.
+- The Home tab also includes a compact 7-day usage card. It uses a thin, soft-purple ring and the same purple as the calendar focus color; clicking it opens the full Codex tab.
+- If Codex data is temporarily unavailable, click the Home card or the refresh button in the Codex tab to retry.
+
+Codex data is read locally through the Codex app-server. Install and sign in to the Codex desktop app before using the dashboard. The helper checks these application paths:
+
+```text
+/Applications/ChatGPT.app/Contents/Resources/codex
+/Applications/Codex.app/Contents/Resources/codex
+```
+
+When the camera view is expanded, the compact Home usage card is hidden temporarily so the original camera layout remains unobstructed.
+
 <p align="center">
   <img src="https://github.com/user-attachments/assets/2d5f69c1-6e7b-4bc2-a6f1-bb9e27cf88a8" alt="Demo GIF" />
 </p>
@@ -100,10 +132,14 @@ brew install --cask TheBoredTeam/boring-notch/boring-notch
 - Launch the app, and voilà—your notch is now the coolest part of your screen.
 - Hover over the notch to see it expand and reveal all its secrets.
 - Use the controls to manage your music like a rockstar.
+- Select your preferred player from **Settings → Media Source**.
+- Open the **Codex** tab to view usage or jump into a recent session.
 - Click the star in your menu bar to customize your notch to your heart's content.
 
 ## 📋 Roadmap
 - [x] Playback live activity 🎧
+- [x] NetEase Cloud Music media source and controls ☁️🎵
+- [x] Codex usage dashboard and recent sessions 🤖
 - [x] Calendar integration 📆
 - [x] Reminders integration ☑️
 - [x] Mirror 📷
@@ -138,7 +174,7 @@ brew install --cask TheBoredTeam/boring-notch/boring-notch
 
 1. **Clone the Repository**:
    ```bash
-   git clone https://github.com/TheBoredTeam/boring.notch.git
+   git clone https://github.com/vinC3nt13/boring.notch.git
    cd boring.notch
    ```
 
@@ -187,5 +223,4 @@ For a full list of licenses and attributions, please see the [Third-Party Licens
 
 - **SwiftUI**: For making us look like coding wizards.
 - **You**: For being awesome and checking out **boring.notch**!
-
 
