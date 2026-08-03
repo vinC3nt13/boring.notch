@@ -439,10 +439,16 @@ struct CodexHomeUsageCard: View {
                 if let rateLimit = manager.dashboard?.rateLimit {
                     rateLimitRing(rateLimit)
 
-                    Text("重置 \(rateLimit.resetCountdownLabel ?? "--")")
-                        .font(.system(size: 8))
-                        .foregroundStyle(.secondary)
-                        .lineLimit(1)
+                    VStack(spacing: 0) {
+                        Text("重置")
+                            .font(.system(size: 10))
+                            .foregroundStyle(.secondary)
+                        Text(rateLimit.resetCountdownLabel ?? "--")
+                            .font(.system(size: 14, weight: .medium))
+                            .foregroundStyle(.secondary)
+                            .lineLimit(1)
+                            .minimumScaleFactor(0.8)
+                    }
                 } else if manager.isLoading {
                     ProgressView()
                         .controlSize(.small)
@@ -535,7 +541,7 @@ struct NotchHomeView: View {
 
             if shouldShowCodexUsage {
                 CodexHomeUsageCard()
-                    .frame(width: 94, height: 120)
+                    .frame(width: 110, height: 120)
                     .padding(.horizontal, 5)
                     .overlay(alignment: .leading) {
                         Rectangle()
