@@ -432,12 +432,18 @@ struct CodexHomeUsageCard: View {
                 }
             }
         } label: {
-            VStack(spacing: 4) {
+            VStack(spacing: 0) {
                 Text("Codex")
-                    .font(.system(size: 12, weight: .semibold))
+                    .font(.system(size: 14, weight: .semibold))
+
+                Spacer()
+                    .frame(height: 8)
 
                 if let rateLimit = manager.dashboard?.rateLimit {
                     rateLimitRing(rateLimit)
+
+                    Spacer()
+                        .frame(height: 2)
 
                     VStack(spacing: 0) {
                         Text("重置")
@@ -465,7 +471,7 @@ struct CodexHomeUsageCard: View {
                         .foregroundStyle(.secondary)
                 }
             }
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottom)
             .contentShape(Rectangle())
         }
         .buttonStyle(.plain)

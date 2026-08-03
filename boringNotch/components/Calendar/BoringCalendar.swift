@@ -220,8 +220,7 @@ struct CalendarView: View {
             )
             if filteredEvents.isEmpty {
                 EmptyEventsView(selectedDate: selectedDate)
-                    .offset(y: 18)
-                Spacer(minLength: 0)
+                    .frame(maxHeight: .infinity, alignment: .bottom)
             } else {
                 EventListView(events: calendarManager.events)
             }
@@ -252,7 +251,7 @@ struct EmptyEventsView: View {
     let selectedDate: Date
     
     var body: some View {
-        VStack {
+        VStack(spacing: 2) {
             Image(systemName: "calendar.badge.checkmark")
                 .font(.title)
                 .foregroundColor(Color(white: 0.65))
