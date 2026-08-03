@@ -547,7 +547,7 @@ struct NotchHomeView: View {
 
             if shouldShowCodexUsage {
                 CodexHomeUsageCard()
-                    .frame(width: 110, height: 120)
+                    .frame(width: 110, height: 130)
                     .padding(.horizontal, 5)
                     .overlay(alignment: .leading) {
                         Rectangle()
