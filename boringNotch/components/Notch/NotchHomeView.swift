@@ -443,7 +443,7 @@ struct CodexHomeUsageCard: View {
                     rateLimitRing(rateLimit)
 
                     Spacer()
-                        .frame(height: 2)
+                        .frame(height: 10)
 
                     VStack(spacing: 0) {
                         Text("重置")
