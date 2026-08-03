@@ -220,6 +220,7 @@ struct CalendarView: View {
             )
             if filteredEvents.isEmpty {
                 EmptyEventsView(selectedDate: selectedDate)
+                    .offset(y: 18)
                 Spacer(minLength: 0)
             } else {
                 EventListView(events: calendarManager.events)
