@@ -50,6 +50,8 @@ struct DynamicNotchApp: App {
 }
 
 class AppDelegate: NSObject, NSApplicationDelegate {
+    private static let customBundleIdentifier = "local.codex.boringnotchcustom"
+
     var statusItem: NSStatusItem?
     var windows: [String: NSWindow] = [:] // UUID -> NSWindow
     var viewModels: [String: BoringViewModel] = [:] // UUID -> BoringViewModel
@@ -69,6 +71,18 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     private var dragDetectors: [String: DragDetector] = [:] // UUID -> DragDetector
 
     func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {
+        return false
+    }
+
+    func applicationShouldHandleReopen(
+        _ sender: NSApplication,
+        hasVisibleWindows flag: Bool
+    ) -> Bool {
+        guard Bundle.main.bundleIdentifier == Self.customBundleIdentifier else {
+            return true
+        }
+
+        openCustomNotch()
         return false
     }
 
@@ -436,6 +450,23 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
 
         previousScreens = NSScreen.screens
+
+        if Bundle.main.bundleIdentifier == Self.customBundleIdentifier,
+           !coordinator.firstLaunch
+        {
+            openCustomNotch()
+        }
+    }
+
+    @MainActor
+    private func openCustomNotch() {
+        if Defaults[.showOnAllDisplays] {
+            viewModels.values.forEach { $0.open() }
+            windows.values.forEach { $0.orderFrontRegardless() }
+        } else {
+            vm.open()
+            window?.orderFrontRegardless()
+        }
     }
 
     func playWelcomeSound() {

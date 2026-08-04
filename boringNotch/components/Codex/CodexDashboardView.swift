@@ -31,31 +31,35 @@ struct CodexDashboardView: View {
     }
 
     private func dashboardContent(_ dashboard: CodexDashboard) -> some View {
-        HStack(spacing: 12) {
+        HStack(alignment: .top, spacing: 12) {
             rateLimitColumn(dashboard.rateLimit)
                 .frame(width: 150)
+                .frame(maxHeight: .infinity, alignment: .top)
 
             divider
 
             usageColumn(dashboard)
                 .frame(width: 190)
+                .frame(maxHeight: .infinity, alignment: .top)
 
             divider
 
             sessionsColumn(dashboard.sessions)
-                .frame(maxWidth: .infinity)
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
         }
+        .frame(maxHeight: .infinity, alignment: .top)
         .padding(.horizontal, 8)
-        .padding(.vertical, 4)
+        .padding(.top, 4)
+        .padding(.bottom, 30)
     }
 
     private func rateLimitColumn(_ rateLimit: CodexRateLimit?) -> some View {
-        VStack(alignment: .leading, spacing: 4) {
+        VStack(alignment: .leading, spacing: 14) {
             Text("Codex 用量")
                 .font(.system(size: 14, weight: .semibold))
 
             if let rateLimit {
-                HStack(spacing: 10) {
+                HStack(alignment: .center, spacing: 10) {
                     ZStack {
                         Circle()
                             .stroke(.gray.opacity(0.22), lineWidth: 7)
@@ -79,7 +83,7 @@ struct CodexDashboardView: View {
                                 .foregroundStyle(.secondary)
                         }
                     }
-                    .frame(width: 82, height: 82)
+                    .frame(width: 88, height: 88)
 
                     VStack(alignment: .leading, spacing: 4) {
                         Text("已用 \(rateLimit.usedPercent)%")
@@ -100,9 +104,9 @@ struct CodexDashboardView: View {
                 Text("暂无额度数据")
                     .font(.caption)
                     .foregroundStyle(.secondary)
-                    .frame(maxHeight: .infinity)
             }
         }
+        .padding(.top, 26)
     }
 
     private func usageColumn(_ dashboard: CodexDashboard) -> some View {
@@ -114,9 +118,11 @@ struct CodexDashboardView: View {
                 .font(.system(size: 26, weight: .bold, design: .rounded))
 
             DailyUsageBars(items: dashboard.recentDailyUsage, accent: accent)
-                .frame(height: 62)
+                .frame(height: 46)
 
             if let usedPercent = dashboard.rateLimit?.usedPercent {
+                Spacer(minLength: 0)
+
                 VStack(spacing: 3) {
                     GeometryReader { geometry in
                         ZStack(alignment: .leading) {
@@ -142,6 +148,7 @@ struct CodexDashboardView: View {
                 }
             }
         }
+        .padding(.top, 26)
     }
 
     private func sessionsColumn(_ sessions: [CodexSession]) -> some View {
@@ -195,6 +202,8 @@ struct CodexDashboardView: View {
                 }
             }
 
+            Spacer(minLength: 0)
+
             Button {
                 manager.openCodex()
             } label: {
@@ -205,11 +214,12 @@ struct CodexDashboardView: View {
                         .fontWeight(.semibold)
                 }
                 .frame(maxWidth: .infinity)
-                .padding(.vertical, 4)
+                .padding(.vertical, 6)
                 .background(.gray.opacity(0.18), in: Capsule())
             }
             .buttonStyle(.plain)
         }
+        .padding(.top, 26)
     }
 
     private var unavailableView: some View {
