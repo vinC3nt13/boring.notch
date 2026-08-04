@@ -49,8 +49,7 @@ struct CodexDashboardView: View {
         }
         .frame(maxHeight: .infinity, alignment: .top)
         .padding(.horizontal, 8)
-        .padding(.top, 4)
-        .padding(.bottom, 30)
+        .padding(.vertical, 4)
     }
 
     private func rateLimitColumn(_ rateLimit: CodexRateLimit?) -> some View {
@@ -106,7 +105,6 @@ struct CodexDashboardView: View {
                     .foregroundStyle(.secondary)
             }
         }
-        .padding(.top, 26)
     }
 
     private func usageColumn(_ dashboard: CodexDashboard) -> some View {
@@ -148,7 +146,6 @@ struct CodexDashboardView: View {
                 }
             }
         }
-        .padding(.top, 26)
     }
 
     private func sessionsColumn(_ sessions: [CodexSession]) -> some View {
@@ -219,7 +216,6 @@ struct CodexDashboardView: View {
             }
             .buttonStyle(.plain)
         }
-        .padding(.top, 26)
     }
 
     private var unavailableView: some View {

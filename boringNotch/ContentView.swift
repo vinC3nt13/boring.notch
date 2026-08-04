@@ -43,6 +43,14 @@ struct ContentView: View {
     private let extendedHoverPadding: CGFloat = 30
     private let zeroHeightHoverPadding: CGFloat = 10
 
+    private var openHeaderHeight: CGFloat {
+        max(24, vm.effectiveClosedNotchHeight)
+    }
+
+    private var openTabContentHeight: CGFloat {
+        max(0, vm.notchSize.height - openHeaderHeight - 12)
+    }
+
     private var topCornerRadius: CGFloat {
        ((vm.notchState == .open) && Defaults[.cornerRadiusScaling])
                 ? cornerRadiusInsets.opened.top
@@ -244,8 +252,8 @@ struct ContentView: View {
 
     @ViewBuilder
     func NotchLayout() -> some View {
-        VStack(alignment: .leading) {
-            VStack(alignment: .leading) {
+        VStack(alignment: .leading, spacing: 0) {
+            VStack(alignment: .leading, spacing: 0) {
                 if coordinator.helloAnimationRunning {
                     Spacer()
                     HelloAnimation(onFinish: {
@@ -294,7 +302,7 @@ struct ContentView: View {
                           BoringFaceAnimation()
                        } else if vm.notchState == .open {
                            BoringHeader()
-                               .frame(height: max(24, vm.effectiveClosedNotchHeight))
+                               .frame(height: openHeaderHeight)
                                .opacity(gestureProgress != 0 ? 1.0 - min(abs(gestureProgress) * 0.1, 0.3) : 1.0)
                        } else {
                            Rectangle().fill(.clear).frame(width: vm.closedNotchSize.width - 20, height: vm.effectiveClosedNotchHeight)
@@ -343,27 +351,45 @@ struct ContentView: View {
               }
               .zIndex(2)
             if vm.notchState == .open {
-                VStack {
-                    switch coordinator.currentView {
-                    case .home:
-                        NotchHomeView(albumArtNamespace: albumArtNamespace)
-                    case .codex:
-                        CodexDashboardView()
-                    case .shelf:
-                        ShelfView()
+                GeometryReader { geometry in
+                    ZStack(alignment: .topLeading) {
+                        tabPage(.home, size: geometry.size)
+                        tabPage(.codex, size: geometry.size)
+                        tabPage(.shelf, size: geometry.size)
                     }
+                    .animation(.smooth(duration: 0.28), value: coordinator.currentView)
+                    .clipped()
                 }
-                .transition(
-                    .scale(scale: 0.8, anchor: .top)
-                    .combined(with: .opacity)
-                    .animation(.smooth(duration: 0.35))
-                )
+                .frame(maxWidth: .infinity)
+                .frame(height: openTabContentHeight)
                 .zIndex(1)
                 .allowsHitTesting(vm.notchState == .open)
                 .opacity(gestureProgress != 0 ? 1.0 - min(abs(gestureProgress) * 0.1, 0.3) : 1.0)
             }
         }
         .onDrop(of: [.fileURL, .url, .utf8PlainText, .plainText, .data], delegate: GeneralDropTargetDelegate(isTargeted: $vm.generalDropTargeting))
+    }
+
+    @ViewBuilder
+    private func tabPage(_ tab: NotchViews, size: CGSize) -> some View {
+        Group {
+            switch tab {
+            case .home:
+                NotchHomeView(albumArtNamespace: albumArtNamespace)
+            case .codex:
+                CodexDashboardView()
+            case .shelf:
+                ShelfView()
+            }
+        }
+        .frame(width: size.width, height: size.height, alignment: .top)
+        .offset(
+            x: CGFloat(tab.rawValue - coordinator.currentView.rawValue) * size.width
+        )
+        .opacity(tab == coordinator.currentView ? 1 : 0)
+        .zIndex(tab == coordinator.currentView ? 1 : 0)
+        .allowsHitTesting(tab == coordinator.currentView)
+        .accessibilityHidden(tab != coordinator.currentView)
     }
 
     @ViewBuilder
@@ -539,6 +565,7 @@ struct ContentView: View {
                           !self.coordinator.sneakPeek.show else { return }
                     
                     self.doOpen()
+                    self.refreshCodexDashboardForCurrentView()
                 }
             }
         } else {
@@ -556,6 +583,16 @@ struct ContentView: View {
                     }
                 }
             }
+        }
+    }
+
+    private func refreshCodexDashboardForCurrentView() {
+        guard coordinator.currentView == .home || coordinator.currentView == .codex else {
+            return
+        }
+
+        Task {
+            await CodexDashboardManager.shared.refresh()
         }
     }
 
